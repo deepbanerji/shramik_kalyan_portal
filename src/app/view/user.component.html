@@ -1,0 +1,41 @@
+<!-- Projection -->
+<ng-content select=".myheader"></ng-content>
+<div>Parent Value : {{parentValue}}</div>
+<div class="container">
+	<h1>Total Income : {{totIncome()}}</h1>
+<ul class="list-unstyled">
+<li class="well myclass" *ngFor="let user of users">
+		<div>
+			<img [src]="user.image">
+			<br>
+			<button (click) = "moreInfo(user)" class="btn btn-info btn-sm">
+				More Info
+			</button>
+		</div>
+		<div>
+			<h1>{{user.firstName | uppercase}} {{user.lastName| uppercase}}</h1>
+			<p>Date of Birth : {{user.dob | date : 'MM/dd/yyyy'}}</p>
+			<p *ngIf="user.isWorking; else elseTemplate">Income : 
+				{{user.income | currency : 'INR' : true}}</p>	
+			<p>
+				Mobile Number : {{user.mobile_no | nationalcode : '80'}}
+			</p>	
+			<em class="pull-right">
+				Total Votes : {{user.vote}}
+				<!-- using Property + Event Binding -->
+				<input type="number" [value]="user.vote" 
+					(change)="user.vote=$event.target.value">
+				<!-- using ngModel -->
+				<input type="number" [(ngModel)]="user.vote">
+			</em>
+		</div>
+
+		<ng-template #elseTemplate>
+			<p class="text-danger">{{user.firstName}} is not working now!!!</p>
+		</ng-template>
+</li>
+</ul>
+
+</div>
+
+<ng-content select="footer"></ng-content>
